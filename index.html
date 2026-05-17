@@ -1,115 +1,960 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Asociación Startups - Demo</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #0d0d0d;
-      color: #f0f0f0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 2rem;
-    }
-    .badge {
-      display: inline-block;
-      background: #7c3aed;
-      color: #fff;
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 0.3rem 0.9rem;
-      border-radius: 999px;
-      margin-bottom: 1.5rem;
-    }
-    h1 {
-      font-size: clamp(2rem, 6vw, 4rem);
-      font-weight: 800;
-      line-height: 1.15;
-      margin-bottom: 1.2rem;
-    }
-    h1 span { color: #a78bfa; }
-    p.subtitle {
-      font-size: 1.15rem;
-      color: #a0a0a0;
-      max-width: 520px;
-      margin-bottom: 2.5rem;
-      line-height: 1.7;
-    }
-    .cta {
-      display: inline-block;
-      background: #7c3aed;
-      color: #fff;
-      text-decoration: none;
-      padding: 0.85rem 2.2rem;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 600;
-      transition: background 0.2s;
-    }
-    .cta:hover { background: #6d28d9; }
-    .cards {
-      display: flex;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-top: 4rem;
-    }
-    .card {
-      background: #1a1a1a;
-      border: 1px solid #2a2a2a;
-      border-radius: 12px;
-      padding: 1.5rem 2rem;
-      width: 200px;
-      text-align: center;
-    }
-    .card .icon { font-size: 2rem; margin-bottom: 0.6rem; }
-    .card h3 { font-size: 0.95rem; font-weight: 600; }
-    .card p { font-size: 0.8rem; color: #666; margin-top: 0.3rem; }
-    footer {
-      margin-top: 5rem;
-      font-size: 0.75rem;
-      color: #444;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asociación Española de Startups | Demo Interactiva</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* === DESIGN TOKENS === */
+        :root {
+            --bg: #ffffff;
+            --bg2: #f8f9fa;
+            --primary: #0039e6;
+            --primary-dark: #0028a3;
+            --text: #212529;
+            --text-muted: #6c757d;
+            --border: #dee2e6;
+            --white: #ffffff;
+            --shadow: rgba(0, 57, 230, 0.08);
+            --success: #10b981;
+            --accent-gradient: linear-gradient(135deg, #0039e6 0%, #0066ff 100%);
+            --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            --radius: 12px;
+            --spacing: 24px;
+        }
+        
+        /* === RESET & BASE === */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: var(--font);
+            color: var(--text);
+            background: var(--bg);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* === NAV === */
+        nav {
+            position: sticky;
+            top: 0;
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+            padding: 0 var(--spacing);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--accent-gradient);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .logo-icon::before {
+            content: "A";
+            color: white;
+            font-size: 24px;
+            font-weight: 800;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        
+        .logo-text strong {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text);
+            letter-spacing: -0.3px;
+        }
+        
+        .logo-text span {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .nav-cta {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        .btn-primary {
+            background: var(--accent-gradient);
+            color: white;
+            padding: 10px 24px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 2px 8px var(--shadow);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            padding: 10px 24px;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 14px;
+            border: 2px solid var(--primary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* === PAGE TABS === */
+        .page-tabs {
+            background: var(--bg2);
+            border-bottom: 1px solid var(--border);
+            padding: 0 var(--spacing);
+        }
+        
+        .tabs-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            gap: 8px;
+        }
+        
+        .tab-btn {
+            background: transparent;
+            border: none;
+            padding: 16px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+            font-family: var(--font);
+        }
+        
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        
+        .tab-btn:hover {
+            color: var(--text);
+        }
+        
+        /* === PAGE CONTENT === */
+        .page {
+            display: none;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        /* === HOME PAGE === */
+        .hero-section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 80px var(--spacing);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        
+        .hero-content h1 {
+            font-size: 52px;
+            font-weight: 800;
+            line-height: 1.15;
+            color: var(--primary);
+            margin-bottom: 24px;
+            letter-spacing: -1px;
+        }
+        
+        .hero-content p {
+            font-size: 18px;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+            line-height: 1.7;
+        }
+        
+        .hero-image {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 57, 230, 0.12);
+        }
+        
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        /* === CHAT PAGE === */
+        .chat-layout {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            height: calc(100vh - 140px);
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .chat-sidebar {
+            background: var(--bg2);
+            border-right: 1px solid var(--border);
+            padding: 32px 24px;
+            overflow-y: auto;
+        }
+        
+        .sidebar-badge {
+            display: inline-block;
+            background: var(--accent-gradient);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .sidebar-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+        
+        .sidebar-subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+        
+        .stat-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 16px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+        
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        
+        .categories-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .category-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .category-btn {
+            background: white;
+            border: 1px solid var(--border);
+            padding: 14px 16px;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+            font-family: var(--font);
+        }
+        
+        .category-btn:hover,
+        .category-btn.active {
+            border-color: var(--primary);
+            background: rgba(0, 57, 230, 0.04);
+        }
+        
+        .category-icon {
+            font-size: 20px;
+        }
+        
+        .category-info {
+            flex: 1;
+        }
+        
+        .category-info strong {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 2px;
+        }
+        
+        .category-info span {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        
+        /* === CHAT MAIN === */
+        .chat-main {
+            display: flex;
+            flex-direction: column;
+            background: white;
+        }
+        
+        .chat-header {
+            padding: 20px 32px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .chat-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--accent-gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+        }
+        
+        .chat-header-info {
+            flex: 1;
+        }
+        
+        .chat-header-info strong {
+            display: block;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        .chat-header-info span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--success);
+            font-weight: 500;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .message {
+            display: flex;
+            gap: 12px;
+            max-width: 75%;
+        }
+        
+        .message.bot {
+            align-self: flex-start;
+        }
+        
+        .message.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+        
+        .message-avatar {
+            width: 36px;
+            height: 36px;
+            background: var(--bg2);
+            border-radius: 50%;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        
+        .message.bot .message-avatar {
+            background: var(--accent-gradient);
+            color: white;
+            font-weight: 700;
+        }
+        
+        .message-bubble {
+            background: var(--bg2);
+            padding: 14px 18px;
+            border-radius: 16px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .message.user .message-bubble {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 8px 0;
+        }
+        
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            background: var(--text-muted);
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+        
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+        
+        @keyframes typing {
+            0%, 60%, 100% { opacity: 0.3; }
+            30% { opacity: 1; }
+        }
+        
+        .chat-chips {
+            padding: 16px 32px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .chip {
+            background: white;
+            border: 1px solid var(--border);
+            padding: 10px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .chip:hover {
+            border-color: var(--primary);
+            background: rgba(0, 57, 230, 0.04);
+            color: var(--primary);
+        }
+        
+        .chat-input-area {
+            padding: 24px 32px;
+            border-top: 1px solid var(--border);
+            background: var(--bg2);
+        }
+        
+        .chat-input-wrapper {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+        
+        .chat-input {
+            flex: 1;
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: var(--radius);
+            padding: 14px 18px;
+            font-family: var(--font);
+            font-size: 14px;
+            resize: none;
+            max-height: 120px;
+            transition: border-color 0.2s;
+        }
+        
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .send-btn {
+            background: var(--accent-gradient);
+            color: white;
+            border: none;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        
+        .send-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+        
+        .chat-disclaimer {
+            text-align: center;
+            padding: 12px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        
+        /* === RESPONSIVE === */
+        @media (max-width: 1024px) {
+            .hero-section {
+                grid-template-columns: 1fr;
+                padding: 60px var(--spacing);
+            }
+            
+            .chat-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .chat-sidebar {
+                display: none;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
 </head>
 <body>
-  <span class="badge">Demo en vivo</span>
-  <h1>Bienvenido a<br /><span>Asociación Startups</span></h1>
-  <p class="subtitle">Una comunidad de emprendedores y proyectos innovadores. Esta página es una demo pública del ecosistema.</p>
-  <a href="#" class="cta">Explorar proyectos</a>
-
-  <div class="cards">
-    <div class="card">
-      <div class="icon">🚀</div>
-      <h3>Startups</h3>
-      <p>Proyectos activos en desarrollo</p>
+    <!-- === NAV === -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo-container">
+                <div class="logo-icon"></div>
+                <div class="logo-text">
+                    <strong>Startups</strong>
+                    <span>Asociación Española</span>
+                </div>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="#quienes">Quiénes somos</a></li>
+                <li><a href="#eventos">Eventos</a></li>
+                <li><a href="#beneficios">Beneficios</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#noticias">Noticias</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+            
+            <div class="nav-cta">
+                <button class="btn-primary">ÚNETE</button>
+                <button class="btn-outline">ACCEDER</button>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- === PAGE TABS === -->
+    <div class="page-tabs">
+        <div class="tabs-container">
+            <button class="tab-btn active" data-page="home">🏠 Inicio</button>
+            <button class="tab-btn" data-page="chat">💬 Asistente IA para Startups</button>
+        </div>
     </div>
-    <div class="card">
-      <div class="icon">🤝</div>
-      <h3>Red</h3>
-      <p>Conecta con otros fundadores</p>
+    
+    <!-- === HOME PAGE === -->
+    <div class="page active" id="home">
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1>Trabajamos para convertir España en el mejor país para emprender</h1>
+                <p>Apoyamos a emprendedores y startups en su crecimiento, proporcionando los medios, servicios y búsqueda de financiación.</p>
+                <button class="btn-primary" onclick="switchPage('chat')">Habla con nuestro Asistente IA →</button>
+            </div>
+            
+            <div class="hero-image">
+                <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Background -->
+                    <rect width="800" height="600" fill="#f8f9fa"/>
+                    
+                    <!-- Office scene illustration -->
+                    <circle cx="650" cy="250" r="180" fill="#e3e8f0" opacity="0.5"/>
+                    
+                    <!-- Team members -->
+                    <circle cx="580" cy="280" r="45" fill="#0039e6"/>
+                    <circle cx="650" cy="250" r="50" fill="#0066ff"/>
+                    <circle cx="720" cy="280" r="45" fill="#0039e6"/>
+                    
+                    <!-- Laptop -->
+                    <rect x="320" y="350" width="160" height="100" rx="8" fill="#ffffff" stroke="#dee2e6" stroke-width="2"/>
+                    <rect x="330" y="360" width="140" height="70" fill="#e3e8f0"/>
+                    <rect x="370" y="450" width="60" height="8" rx="4" fill="#dee2e6"/>
+                    
+                    <!-- Charts -->
+                    <rect x="100" y="150" width="120" height="120" rx="8" fill="#ffffff" stroke="#dee2e6" stroke-width="2"/>
+                    <rect x="115" y="220" width="15" height="35" fill="#0039e6" rx="4"/>
+                    <rect x="140" y="200" width="15" height="55" fill="#0066ff" rx="4"/>
+                    <rect x="165" y="180" width="15" height="75" fill="#0039e6" rx="4"/>
+                    <rect x="190" y="190" width="15" height="65" fill="#0066ff" rx="4"/>
+                    
+                    <!-- Rocket -->
+                    <path d="M 600 450 L 630 350 L 660 450 Z" fill="#0039e6"/>
+                    <circle cx="630" cy="380" r="12" fill="#ffffff"/>
+                    <rect x="615" y="450" width="10" height="20" fill="#ff6b6b"/>
+                    <rect x="635" y="450" width="10" height="20" fill="#ff6b6b"/>
+                </svg>
+            </div>
+        </section>
     </div>
-    <div class="card">
-      <div class="icon">💡</div>
-      <h3>Ideas</h3>
-      <p>Valida y lanza tu idea</p>
+    
+    <!-- === CHAT PAGE === -->
+    <div class="page" id="chat">
+        <div class="chat-layout">
+            <!-- Sidebar -->
+            <aside class="chat-sidebar">
+                <span class="sidebar-badge">✨ Asistente IA</span>
+                <h2 class="sidebar-title">Centro de Ayuda para Startups</h2>
+                <p class="sidebar-subtitle">Obtén respuestas al instante sobre financiación, beneficios, eventos y más.</p>
+                
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">+500</div>
+                        <div class="stat-label">Startups</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">200K€</div>
+                        <div class="stat-label">Beneficios</div>
+                    </div>
+                </div>
+                
+                <div class="categories-title">Categorías principales</div>
+                <div class="category-list">
+                    <button class="category-btn active">
+                        <span class="category-icon">💰</span>
+                        <div class="category-info">
+                            <strong>Financiación</strong>
+                            <span>Pública y privada</span>
+                        </div>
+                    </button>
+                    <button class="category-btn">
+                        <span class="category-icon">🎁</span>
+                        <div class="category-info">
+                            <strong>Beneficios</strong>
+                            <span>Descuentos exclusivos</span>
+                        </div>
+                    </button>
+                    <button class="category-btn">
+                        <span class="category-icon">📅</span>
+                        <div class="category-info">
+                            <strong>Eventos</strong>
+                            <span>Networking y formación</span>
+                        </div>
+                    </button>
+                    <button class="category-btn">
+                        <span class="category-icon">⚖️</span>
+                        <div class="category-info">
+                            <strong>Asesoría Legal</strong>
+                            <span>Consultas jurídicas</span>
+                        </div>
+                    </button>
+                </div>
+            </aside>
+            
+            <!-- Main Chat -->
+            <main class="chat-main">
+                <div class="chat-header">
+                    <div class="chat-avatar">AI</div>
+                    <div class="chat-header-info">
+                        <strong>Asistente IA · Asociación Startups</strong>
+                        <span><div class="status-dot"></div> En línea</span>
+                    </div>
+                </div>
+                
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message bot">
+                        <div class="message-avatar">🤖</div>
+                        <div class="message-bubble">
+                            ¡Hola! 👋 Soy tu asistente de la Asociación Española de Startups. Estoy aquí para ayudarte con información sobre financiación, beneficios, eventos, servicios legales y todo lo que necesites para impulsar tu startup en España.
+                        </div>
+                    </div>
+                    
+                    <div class="message bot">
+                        <div class="message-avatar">🤖</div>
+                        <div class="message-bubble">
+                            ¿En qué puedo ayudarte hoy?
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chat-chips">
+                    <button class="chip" onclick="sendChip('¿Cómo puedo acceder a financiación pública?')">
+                        💰 ¿Cómo acceder a financiación pública?
+                    </button>
+                    <button class="chip" onclick="sendChip('¿Qué beneficios tengo como socio?')">
+                        🎁 ¿Qué beneficios tengo como socio?
+                    </button>
+                    <button class="chip" onclick="sendChip('¿Qué eventos hay próximamente?')">
+                        📅 ¿Qué eventos hay próximamente?
+                    </button>
+                    <button class="chip" onclick="sendChip('¿Cuánto cuesta asociarse?')">
+                        💳 ¿Cuánto cuesta asociarse?
+                    </button>
+                </div>
+                
+                <div class="chat-input-area">
+                    <div class="chat-input-wrapper">
+                        <textarea class="chat-input" id="chatInput" placeholder="Escribe tu pregunta aquí..." rows="1"></textarea>
+                        <button class="send-btn" onclick="sendMessage()">→</button>
+                    </div>
+                    <div class="chat-disclaimer">⚡ Respuestas al instante · Información orientativa</div>
+                </div>
+            </main>
+        </div>
     </div>
-    <div class="card">
-      <div class="icon">🌟</div>
-      <h3>Demos</h3>
-      <p>Muestra lo que has construido</p>
-    </div>
-  </div>
-
-  <footer>Asociación Startups &copy; 2026 &mdash; Demo pública</footer>
+    
+    <script>
+        // === PAGE NAVIGATION ===
+        function switchPage(pageName) {
+            // Remove active from all pages and tabs
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+            
+            // Add active to selected
+            document.getElementById(pageName).classList.add('active');
+            document.querySelector(`[data-page="${pageName}"]`).classList.add('active');
+        }
+        
+        // Tab click handlers
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                switchPage(btn.dataset.page);
+            });
+        });
+        
+        // === CHAT FUNCTIONALITY ===
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        
+        // Predefined responses
+        const responses = {
+            'financiación pública': {
+                text: 'Como socio de la Asociación Española de Startups, tienes acceso a:\n\n✅ Asesoramiento personalizado para solicitudes de financiación pública\n✅ Información sobre convocatorias ENISA, CDTI y fondos Next Generation\n✅ Apoyo en la preparación de documentación y memoria técnica\n✅ Conexión con gestores especializados\n\nEl equipo puede ayudarte a identificar las líneas de financiación más adecuadas para tu fase y sector. ¿Te gustaría que te contacte un asesor?'
+            },
+            'beneficios': {
+                text: 'Como socio tienes acceso a más de 200.000€ en beneficios:\n\n🎯 6.000$ en créditos de Amazon AWS\n🎯 Descuentos en Google Cloud, Stripe, HubSpot\n🎯 Acceso a seguros de salud con AON con tarifa especial\n🎯 Descuentos en servicios legales con Lawsome\n🎯 Plataforma exclusiva de networking con +500 startups\n🎯 Eventos y formaciones gratuitas\n\n¿Te interesa conocer los descuentos de algún servicio en particular?'
+            },
+            'eventos': {
+                text: 'Organizamos eventos regularmente para nuestra comunidad:\n\n📅 Meetups mensuales de networking\n📅 Talleres de financiación y crecimiento\n📅 Conferencias con inversores y corporates\n📅 Demo Days con fondos de venture capital\n\nComo socio tienes acceso gratuito o con descuento a todos. Puedes ver el calendario completo en nuestra plataforma Vistingo. ¿Quieres que te envíe el link?'
+            },
+            'precio': {
+                text: 'Tenemos tres modalidades de asociación:\n\n🟢 SIMPATIZANTE - GRATIS\n• Recibe información sobre normativas y leyes\n• Únete a la causa del ecosistema startup\n\n🔵 STARTUP - €9,99/mes\n• Acceso a plataforma de socios\n• Descuentos exclusivos en servicios (+200K€)\n• Financiación pública y privada\n• Networking y eventos\n\n🟣 SCALE UP - €199/mes\n• Todo lo anterior +\n• Apoyo en comunicación pública\n• Estrategia de asuntos públicos\n• Relaciones institucionales\n\n¿Te gustaría asociarte?'
+            },
+            'default': {
+                text: 'Entiendo tu pregunta. Te recomiendo:\n\n1️⃣ Visitar nuestra web asociacionstartups.es para información detallada\n2️⃣ Contactar directamente con nuestro equipo\n3️⃣ Unirte como simpatizante (gratis) para recibir información regular\n\n¿Hay algo más específico en lo que pueda ayudarte?'
+            }
+        };
+        
+        function detectIntent(message) {
+            const lower = message.toLowerCase();
+            if (lower.includes('financiación') || lower.includes('financiacion') || lower.includes('enisa') || lower.includes('cdti') || lower.includes('fondos')) {
+                return 'financiación pública';
+            }
+            if (lower.includes('beneficio') || lower.includes('descuento') || lower.includes('aws') || lower.includes('ventaja')) {
+                return 'beneficios';
+            }
+            if (lower.includes('evento') || lower.includes('meetup') || lower.includes('networking') || lower.includes('conferencia')) {
+                return 'eventos';
+            }
+            if (lower.includes('precio') || lower.includes('coste') || lower.includes('cuánto') || lower.includes('cuanto') || lower.includes('tarifa') || lower.includes('asociarse')) {
+                return 'precio';
+            }
+            return 'default';
+        }
+        
+        function addMessage(text, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+            
+            messageDiv.innerHTML = `
+                <div class="message-avatar">${isUser ? '👤' : '🤖'}</div>
+                <div class="message-bubble">${text.replace(/\n/g, '<br>')}</div>
+            `;
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function addTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message bot';
+            typingDiv.id = 'typing';
+            typingDiv.innerHTML = `
+                <div class="message-avatar">🤖</div>
+                <div class="message-bubble">
+                    <div class="typing-indicator">
+                        <span></span><span></span><span></span>
+                    </div>
+                </div>
+            `;
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+        
+        function removeTypingIndicator() {
+            const typing = document.getElementById('typing');
+            if (typing) typing.remove();
+        }
+        
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message) return;
+            
+            // Add user message
+            addMessage(message, true);
+            chatInput.value = '';
+            
+            // Show typing indicator
+            addTypingIndicator();
+            
+            // Simulate bot response
+            setTimeout(() => {
+                removeTypingIndicator();
+                const intent = detectIntent(message);
+                addMessage(responses[intent].text);
+            }, 1200);
+        }
+        
+        function sendChip(text) {
+            chatInput.value = text;
+            sendMessage();
+        }
+        
+        // Input handlers
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+        
+        // Auto-resize textarea
+        chatInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+        });
+        
+        // Category buttons
+        document.querySelectorAll('.category-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+        
+        // Auto-launch chat with initial bot message
+        window.addEventListener('load', () => {
+            // Switch to chat page immediately
+            setTimeout(() => {
+                switchPage('chat');
+            }, 500);
+        });
+    </script>
 </body>
 </html>
