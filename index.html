@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Asociación Startups - Demo</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #0d0d0d;
+      color: #f0f0f0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+    .badge {
+      display: inline-block;
+      background: #7c3aed;
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.9rem;
+      border-radius: 999px;
+      margin-bottom: 1.5rem;
+    }
+    h1 {
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 1.2rem;
+    }
+    h1 span { color: #a78bfa; }
+    p.subtitle {
+      font-size: 1.15rem;
+      color: #a0a0a0;
+      max-width: 520px;
+      margin-bottom: 2.5rem;
+      line-height: 1.7;
+    }
+    .cta {
+      display: inline-block;
+      background: #7c3aed;
+      color: #fff;
+      text-decoration: none;
+      padding: 0.85rem 2.2rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .cta:hover { background: #6d28d9; }
+    .cards {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 4rem;
+    }
+    .card {
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      padding: 1.5rem 2rem;
+      width: 200px;
+      text-align: center;
+    }
+    .card .icon { font-size: 2rem; margin-bottom: 0.6rem; }
+    .card h3 { font-size: 0.95rem; font-weight: 600; }
+    .card p { font-size: 0.8rem; color: #666; margin-top: 0.3rem; }
+    footer {
+      margin-top: 5rem;
+      font-size: 0.75rem;
+      color: #444;
+    }
+  </style>
+</head>
+<body>
+  <span class="badge">Demo en vivo</span>
+  <h1>Bienvenido a<br /><span>Asociación Startups</span></h1>
+  <p class="subtitle">Una comunidad de emprendedores y proyectos innovadores. Esta página es una demo pública del ecosistema.</p>
+  <a href="#" class="cta">Explorar proyectos</a>
+
+  <div class="cards">
+    <div class="card">
+      <div class="icon">🚀</div>
+      <h3>Startups</h3>
+      <p>Proyectos activos en desarrollo</p>
+    </div>
+    <div class="card">
+      <div class="icon">🤝</div>
+      <h3>Red</h3>
+      <p>Conecta con otros fundadores</p>
+    </div>
+    <div class="card">
+      <div class="icon">💡</div>
+      <h3>Ideas</h3>
+      <p>Valida y lanza tu idea</p>
+    </div>
+    <div class="card">
+      <div class="icon">🌟</div>
+      <h3>Demos</h3>
+      <p>Muestra lo que has construido</p>
+    </div>
+  </div>
+
+  <footer>Asociación Startups &copy; 2026 &mdash; Demo pública</footer>
+</body>
+</html>
